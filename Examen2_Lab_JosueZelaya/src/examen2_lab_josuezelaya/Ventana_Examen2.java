@@ -17,6 +17,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -106,6 +108,11 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
         boton_agregar_playlist = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
         cb_playlist_explorar = new javax.swing.JComboBox<>();
+        jd_ver = new javax.swing.JDialog();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        arbol = new javax.swing.JTree();
+        jd_hilo = new javax.swing.JDialog();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menu_usuarios = new javax.swing.JMenu();
@@ -628,6 +635,50 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
                 .addGap(17, 17, 17))
         );
 
+        jButton1.setText("Actualizar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
+        arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane3.setViewportView(arbol);
+
+        javax.swing.GroupLayout jd_verLayout = new javax.swing.GroupLayout(jd_ver.getContentPane());
+        jd_ver.getContentPane().setLayout(jd_verLayout);
+        jd_verLayout.setHorizontalGroup(
+            jd_verLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_verLayout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jButton1)
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+        jd_verLayout.setVerticalGroup(
+            jd_verLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_verLayout.createSequentialGroup()
+                .addContainerGap(29, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jd_verLayout.createSequentialGroup()
+                .addGap(90, 90, 90)
+                .addComponent(jButton1)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jd_hiloLayout = new javax.swing.GroupLayout(jd_hilo.getContentPane());
+        jd_hilo.getContentPane().setLayout(jd_hiloLayout);
+        jd_hiloLayout.setHorizontalGroup(
+            jd_hiloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 460, Short.MAX_VALUE)
+        );
+        jd_hiloLayout.setVerticalGroup(
+            jd_hiloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 320, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jMenu1.setText("Opciones");
@@ -718,6 +769,11 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
 
         menu_ver_playlist.setText("Ver Playlists");
         menu_ver_playlist.setEnabled(false);
+        menu_ver_playlist.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_ver_playlistActionPerformed(evt);
+            }
+        });
         menu_login.add(menu_ver_playlist);
 
         menu_ver_favoritos.setText("Ver Favoritos");
@@ -770,22 +826,22 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listar_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listar_usuarioActionPerformed
-        
+
         DefaultTableModel modelo = new DefaultTableModel();
-        
+
         modelo.addColumn("Nombre");
         modelo.addColumn("Edad");
         modelo.addColumn("Username");
         for (Usuario temp : usuarios) {
-            
+
             Object[] newrow = {
                 temp.getNombre(),
                 temp.getEdad(),
                 temp.getUsername(),};
             modelo.addRow(newrow);
-            
+
             tabla1.setModel(modelo);
-            
+
         }
         jd_listar_usuarios.setModal(true);
         jd_listar_usuarios.pack();
@@ -809,7 +865,7 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
             String password = ps_password_usuario.getText();
             us = (new Usuario(nombre, edad, username, password));
             usuarios.add(new Usuario(nombre, edad, username, password));
-            
+
             JOptionPane.showMessageDialog(this, "Se agrego exitosamente");
         } catch (Exception e) {
             e.printStackTrace();
@@ -836,24 +892,24 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
                 String genero = tf_genero_cancion.getText();
                 canciones.add(new Canciones(nombre, artista, duracion, genero));
                 JOptionPane.showMessageDialog(this, "Se agrego exitosamente");
-                
+
                 String nombre_album = cb_album_cancion.getSelectedItem().toString();
                 for (Album temp : album) {
                     if (nombre_album.equals(temp.getNombre())) {
-                        
+
                         temp.setCanciones_agregadas(canciones);
-                        
+
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            
+
         }
     }//GEN-LAST:event_boton_guardar_cancionMouseClicked
 
     private void tabla1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla1MouseReleased
-        
+
 
     }//GEN-LAST:event_tabla1MouseReleased
 
@@ -869,7 +925,7 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
         if (evt.isMetaDown()) {
             menu_popup.show(tabla1.getComponentAt(tabla1.getX(), tabla1.getY()), tabla1.getX(), tabla1.getY());
         } else {
-            
+
             menu_popup.show(tabla1.getComponentAt(tabla1.getX(), tabla1.getY()), tabla1.getX(), tabla1.getY());
         }
     }//GEN-LAST:event_tabla1MouseClicked
@@ -888,7 +944,7 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
     }//GEN-LAST:event_menu_guardar_usuariosActionPerformed
 
     private void menu_crear_albumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_crear_albumActionPerformed
-        
+
         jd_crear_album.setModal(true);
         jd_crear_album.pack();
         jd_crear_album.setLocationRelativeTo(this);
@@ -901,11 +957,11 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
             String artista = tf_artista_album.getText();
             album.add(new Album(nombre, artista));
             JOptionPane.showMessageDialog(this, "Se agrego exitosamente");
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
 
     }//GEN-LAST:event_boton_guardar_albumMouseClicked
 
@@ -916,7 +972,7 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
                     = new DefaultComboBoxModel();
             for (Album temp : album) {
                 modelo.addElement(temp);
-                
+
             }
             cb_album_cancion.setModel(modelo);
         }
@@ -929,7 +985,7 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
                     = new DefaultComboBoxModel();
             for (Album temp : album) {
                 modelo.addElement(temp);
-                
+
             }
             cb_eliminar_album.setModel(modelo);
         }
@@ -973,7 +1029,7 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
                     = new DefaultComboBoxModel();
             for (Album temp : album) {
                 modelo.addElement(temp);
-                
+
             }
             cb_listar_album.setModel(modelo);
         }
@@ -985,15 +1041,15 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
         for (Album temp : album) {
             if (album_listar.equals(temp.getNombre())) {
                 DefaultTableModel modelo = new DefaultTableModel();
-                
+
                 modelo.addColumn("Canciones");
-                
+
                 Object[] newrow = {
                     temp.getCanciones_agregadas(),};
                 modelo.addRow(newrow);
-                
+
                 tabla2.setModel(modelo);
-                
+
             }
         }
     }//GEN-LAST:event_boton_listar_albumMouseClicked
@@ -1035,15 +1091,15 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
                     = new DefaultComboBoxModel();
             for (Album temp : album) {
                 modelo.addElement(temp);
-                
+
             }
             cb_album_explorar.setModel(modelo);
-            
+
             DefaultComboBoxModel modelo1
                     = new DefaultComboBoxModel();
             for (Playlist temp : playlist) {
                 modelo1.addElement(temp);
-                
+
             }
             cb_playlist_explorar.setModel(modelo1);
         }
@@ -1082,7 +1138,16 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
         jd_explorar.setLocationRelativeTo(this);
         jd_explorar.setVisible(true);
     }//GEN-LAST:event_menu_explorarActionPerformed
-    
+
+    private void menu_ver_playlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ver_playlistActionPerformed
+
+    }//GEN-LAST:event_menu_ver_playlistActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+      
+    }//GEN-LAST:event_jButton1MouseClicked
+
     public void Guardar(ArrayList usuarios) {
         try {
             FileOutputStream archivo = new FileOutputStream("./usuario.cbm");
@@ -1093,7 +1158,7 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     public void Abrir() {
         try {
             FileInputStream entrada = new FileInputStream("./usuario.cbm");
@@ -1101,7 +1166,7 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
             try {
                 usuarios = (ArrayList<Usuario>) oi.readObject();
             } catch (ClassNotFoundException e) {
-                
+
             }
         } catch (IOException e) {
         }
@@ -1143,6 +1208,7 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTree arbol;
     private javax.swing.JButton boton_agregar_playlist;
     private javax.swing.JButton boton_eliminar_album;
     private javax.swing.JButton boton_guardar_album;
@@ -1157,6 +1223,7 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cb_eliminar_album;
     private javax.swing.JComboBox<String> cb_listar_album;
     private javax.swing.JComboBox<String> cb_playlist_explorar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1186,14 +1253,17 @@ public class Ventana_Examen2 extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JDialog jd_crear_album;
     private javax.swing.JDialog jd_crear_canciones;
     private javax.swing.JDialog jd_crear_usuario;
     private javax.swing.JDialog jd_eliminar_album;
     private javax.swing.JDialog jd_explorar;
+    private javax.swing.JDialog jd_hilo;
     private javax.swing.JDialog jd_listar_album;
     private javax.swing.JDialog jd_listar_usuarios;
     private javax.swing.JDialog jd_login;
+    private javax.swing.JDialog jd_ver;
     private javax.swing.JMenuItem listar_usuario;
     private javax.swing.JMenuItem menu_cargar_usuario;
     private javax.swing.JMenuItem menu_crear_album;
